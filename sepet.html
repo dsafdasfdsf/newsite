@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sepetiniz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Sepetiniz</h1>
+    <ul id="sepetListesi"></ul>
+
+    <script>
+        let sepet = JSON.parse(localStorage.getItem("sepet")) || [];
+        let sepetListesi = document.getElementById("sepetListesi");
+
+        sepet.forEach(urun => {
+            let yeniUrun = document.createElement("li");
+            yeniUrun.textContent = urun.ad + " - ₺" + urun.fiyat;
+            sepetListesi.appendChild(yeniUrun);
+        });
+    </script>
+
+</body>
+</html>
