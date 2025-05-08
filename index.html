@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Ticaret Sitesi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f9f9f9;
+            margin: 0;
+        }
+
+        header {
+            background: linear-gradient(45deg, #ff6600, #ff9900);
+            color: white;
+            padding: 20px;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .container {
+            width: 300px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 8px 15px;
+            border-radius: 10px;
+            border: none;
+            background-color: #ff6600;
+            color: white;
+            cursor: pointer;
+        }
+
+        .urun {
+            padding: 15px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            margin: 10px auto;
+            width: 250px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Mağazamıza Hoş Geldiniz</h1>
+    </header>
+
+    <!-- Kayıt Ol & Giriş Sistemi -->
+    <div class="container" id="authContainer">
+        <h2>Kayıt Ol / Giriş Yap</h2>
+        <input type="text" id="username" placeholder="Kullanıcı Adı">
+        <input type="password" id="password" placeholder="Şifre">
+        <button onclick="kayitOl()">Kaydol</button>
+        <button onclick="girisYap()">Giriş Yap</button>
+        <p id="authMessage"></p>
+    </div>
+
+    <!-- Ürün Listesi (Giriş Başarılıysa Görünür) -->
+    <div id="urunlerContainer" style="display:none;">
+        <h2>Ürünler</h2>
+
+        <div class="urun">
+            <h3>Ürün 1</h3>
+            <p>₺199</p>
+            <button onclick="sepeteEkle('Ürün 1', 199)">Sepete Ekle</button>
+        </div>
+
+        <div class="urun">
+            <h3>Ürün 2</h3>
+            <p>₺349</p>
+            <button onclick="sepeteEkle('Ürün 2', 349)">Sepete Ekle</button>
+        </div>
+    </div>
+
+    <!-- Sepet -->
+    <div class="container" id="sepetContainer" style="display:none;">
+        <h2>Sepetiniz</h2>
+        <ul id="sepetListesi"></ul>
+    </div>
+
+    <script>
+        // Kayıt Olma Fonksiyonu
+        function kayitOl() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+
+            if (username && password) {
+                localStorage.setItem("username", username);
+                localStorage.setItem("password", password);
+                document.getElementById("authMessage").textContent = "Kayıt başarılı! Şimdi giriş yapabilirsiniz.";
+            } else {
+                document.getElementById("authMessage").textContent = "Lütfen tüm bilgileri girin.";
+            }
+        }
+
+        // Giriş Yapma Fonksiyonu
+        function girisYap() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+
+            let storedUsername = localStorage.getItem("username");
+            let storedPassword = localStorage.getItem("password");
+
+            if (username === storedUsername && password === storedPassword) {
+                document.getElementById("authMessage").textContent = "Giriş başarılı!";
+                document.getElementById("authContainer").style.display = "none";
+                document.getElementById("urunlerContainer").style.display = "block";
+                document.getElementById("sepetContainer").style.display = "block";
+            } else {
+                document.getElementById("authMessage").textContent = "Hatalı giriş!";
+            }
+        }
+
+        // Sepete Ekleme Fonksiyonu
+        let sepet = [];
+        function sepeteEkle(urunAdi, fiyat) {
+            sepet.push({ ad: urunAdi, fiyat: fiyat });
+            let sepetListesi = document.getElementById("sepetListesi");
+            let yeniUrun = document.createElement("li");
+            yeniUrun.textContent = urunAdi + " - ₺" + fiyat;
+            sepetListesi.appendChild(yeniUrun);
+        }
+    </script>
+
+</body>
+</html>
